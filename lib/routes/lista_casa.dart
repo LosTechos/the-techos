@@ -11,14 +11,13 @@ Widget listaCasa(BuildContext context) {
           leading: FlutterLogo(),
           title: Text("House $index"),
           subtitle: Text("A MF HOUSE "),
-            onTap: () {
-              InkWell(
-                splashColor: Colors.blue.withAlpha(30),
-                onTap: () {
-
-                },
-              );
-            },
+          onTap: () {
+            InkWell(
+              splashColor: Colors.blue.withAlpha(30),
+              onTap: () {
+              },
+            );
+          },
           isThreeLine: true,
         ),
       );
