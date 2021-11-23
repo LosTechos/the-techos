@@ -10,6 +10,8 @@ import 'package:pantallas/routes/lista_casa.dart';
 import 'package:pantallas/routes/login.dart';
 import 'package:pantallas/routes/payments.dart';
 
+import 'LandingPage.dart';
+
 class MainPage extends StatefulWidget {
   _StateMainPage createState() => _StateMainPage();
 }
@@ -59,17 +61,6 @@ class _StateMainPage extends State<MainPage>{
               ),
             ),
            ListTile(
-              leading: Icon(MdiIcons.onepassword),
-              title: Text("Cambiar contraseña"),
-              onTap: () {
-              },
-            ),
-           ListTile(
-              leading: Icon(MdiIcons.faceProfile),
-              title: Text("Cambiar foto de perfil"),
-              onTap: () {},
-           ),
-           ListTile(
               leading: Icon(Icons.exit_to_app_outlined),
               title: Text("Cerrar sesión"),
               onTap: () {
@@ -109,9 +100,9 @@ class _StateMainPage extends State<MainPage>{
               child: IndexedStack(
                 index: index,
                 children: [
-                  // Algo
+                  LandingPage(),
+                  Payments(),
                   listaCasa(context),
-                  Payments()
                 ],
               ),
             ),
@@ -171,11 +162,11 @@ class _StateMainPage extends State<MainPage>{
         ),
         BottomNavigationBarItem(
           icon: Icon(MdiIcons.homeCityOutline),
-          label: 'My House',
+          label: 'Payments',
         ),
         BottomNavigationBarItem(
           icon: Icon(MdiIcons.walletOutline),
-          label: 'Payments',
+          label: 'Budget',
         ),
         BottomNavigationBarItem(
           icon: Icon(MdiIcons.bellOutline),
@@ -184,24 +175,4 @@ class _StateMainPage extends State<MainPage>{
       ],
     );
   }
-
-  Widget landingPage(){
-    return GridView.count(
-      crossAxisCount: 2,
-      children: [
-        Card(
-          color: Colors.green,
-          child: Center(
-            child: Text(
-              "Payments",
-              style: TextStyle(
-                color: Colors.white
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
 }
