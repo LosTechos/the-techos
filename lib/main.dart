@@ -9,7 +9,7 @@ class BarberApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Barber Demo',
+      title: 'Los Techos',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
