@@ -18,17 +18,12 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: ">=2.10.0 <3.0.0"
 
 dependencies:
-  flutter_map: ^0.13.0
-  location: any
-  flutter_map_location: any
   flutter_login: ^2.2.1
   future_progress_dialog: ^0.2.0
-  geocoding: ^2.0.0
-  dio: any
-  flutter_map_location_marker: any
+  dio: ^4.0.4
   flutter_datetime_picker: ^1.5.1
   material_floating_search_bar: ^0.3.4
   material_design_icons_flutter: ^4.0.5955

@@ -20,30 +20,31 @@ class _StatePayments extends State<Payments> {
   @override
   Widget build(BuildContext context) {
     return ListView(
-        children: [SafeArea(
+      children: [
+        SafeArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-
               Container(
                 margin: const EdgeInsets.all(10.0),
                 width: double.infinity,
                 height: 50,
                 decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                          color: Colors.black26,
-                          blurRadius: 12,
-                          offset: Offset.infinite
-                      )
-                    ]
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black26,
+                      blurRadius: 12,
+                      offset: Offset.infinite
+                    )
+                  ]
                 ),
                 child: const Text(
                   'Debts',
                   style: TextStyle(
-                      decoration: TextDecoration.none,
-                      fontSize: 18,
-                      color: Colors.white),
+                    decoration: TextDecoration.none,
+                    fontSize: 18,
+                    color: Colors.white
+                  ),
                 ),
               ),
               SizedBox(
@@ -67,10 +68,11 @@ class _StatePayments extends State<Payments> {
                           child: Text(
                             (noDebt? 'You have no pending payments' : 'Late Payment: 3000 mxn. Last payment date November 7 2021'),
                             style: TextStyle(
-                                decoration: TextDecoration.underline,
-                                fontSize: 18,
-                                height: 3,
-                                color: Colors.white),
+                              decoration: TextDecoration.underline,
+                              fontSize: 18,
+                              height: 3,
+                              color: Colors.white
+                            ),
                             textAlign: TextAlign.center,
                           ),
                         ),
@@ -95,9 +97,9 @@ class _StatePayments extends State<Payments> {
                     ),
                     onTap: () {
                       DatePicker.showTime12hPicker(context,
-                          onChanged: (date) {
-                            print(date);
-                          }
+                        onChanged: (date) {
+                          print(date);
+                        }
                       );
                     },
                   ),
@@ -105,8 +107,8 @@ class _StatePayments extends State<Payments> {
               ),
             ],
           ),
-        ),]
+        )
+      ]
     );
   }
-
 }

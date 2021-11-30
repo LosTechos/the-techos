@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:pantallas/routes/login.dart';
 
 void main() {
-  runApp(BarberApp());
+  runApp(TechosApp());
 }
 
-class BarberApp extends StatelessWidget {
+class TechosApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -13,7 +13,7 @@ class BarberApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: LoginBarber(),
+      home: LoginTechos(),
     );
   }
 }
