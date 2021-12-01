@@ -24,8 +24,6 @@ dependencies:
   flutter_login: ^2.2.1
   future_progress_dialog: ^0.2.0
   dio: ^4.0.4
-  flutter_datetime_picker: ^1.5.1
-  material_floating_search_bar: ^0.3.4
   material_design_icons_flutter: ^4.0.5955
   image_picker: ^0.8.3+2
   video_player: ^2.1.12

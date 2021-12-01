@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class LandingPage extends StatefulWidget {
@@ -18,7 +17,6 @@ class _StateLandingPage extends State<LandingPage> {
             children: [
               GridView.count(
                 shrinkWrap: true,
-                padding: const EdgeInsets.only(top: 55),
                 crossAxisCount: 2,
                 childAspectRatio: 2,
                 children: [
@@ -29,7 +27,7 @@ class _StateLandingPage extends State<LandingPage> {
                         child: Text(
                           "Expenses History",
                           style: TextStyle(
-                              color: Colors.white
+                            color: Colors.white
                           ),
                         ),
                       ),
@@ -41,29 +39,29 @@ class _StateLandingPage extends State<LandingPage> {
                         builder: (BuildContext dialogContext) {
                           return AlertDialog(
                             content: Container(
-                                width: MediaQuery.of(context).size.width * .7,
-                                child: GridView.count(
-                                  crossAxisCount: 1,
-                                  childAspectRatio: 4,
-                                  padding: const EdgeInsets.all(4),
-                                  mainAxisSpacing: 4.0,
-                                  crossAxisSpacing: 4.0,
-                                  children: List.generate(30, (index) {
-                                    return SizedBox(
-                                      child: Card(
-                                        color: Colors.green,
-                                        child: Center(
-                                          child: Text(
-                                            "Expense $index",
-                                            style: TextStyle(
-                                                color: Colors.white
-                                            ),
+                              width: MediaQuery.of(context).size.width * .7,
+                              child: GridView.count(
+                                crossAxisCount: 1,
+                                childAspectRatio: 4,
+                                padding: const EdgeInsets.all(4),
+                                mainAxisSpacing: 4.0,
+                                crossAxisSpacing: 4.0,
+                                children: List.generate(30, (index) {
+                                  return SizedBox(
+                                    child: Card(
+                                      color: Colors.green,
+                                      child: Center(
+                                        child: Text(
+                                          "Expense $index",
+                                          style: TextStyle(
+                                            color: Colors.white
                                           ),
                                         ),
                                       ),
-                                    );
-                                  }),
-                                )
+                                    ),
+                                  );
+                                }),
+                              )
                             ),
                             actions: <Widget>[
                               TextButton(
