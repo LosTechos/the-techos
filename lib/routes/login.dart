@@ -5,17 +5,12 @@ import 'package:flutter_login/flutter_login.dart';
 import 'package:pantallas/routes/main_page.dart';
 
 class LoginTechos extends StatelessWidget {
-  Response token;
-  Response loginInfo;
+  late final Response? token;
+  late final Response? loginInfo;
   final Duration time = Duration(milliseconds: 2600);
 
-  Future<String> _onSignup(LoginData signup){
-    return Future.delayed(time).then((_) {
-      return null;
-    });
-  }
 
-  Future<String> _onLogin(LoginData login) async {
+  Future<String?> _onLogin(LoginData login) async {
     try{
       token = await Dio().post(
         'https://los-techos.herokuapp.com/api/login',
@@ -29,27 +24,24 @@ class LoginTechos extends StatelessWidget {
       );
 
       loginInfo = await Dio().get(
-        'https://los-techos.herokuapp.com/api/user/${token.data['id']}',
+        'https://los-techos.herokuapp.com/api/user/${token!.data['id'] ?? 71}',
         options: Options(
           contentType: Headers.jsonContentType,
           headers: {
-            'access-token': token.data['token'],
+            'access-token': token!.data['token'],
           }
         )
       );
-
-      print(token.data);
-      print(loginInfo.data);
       return null;
     } on DioError catch (e) {
-      if (e.response.statusCode == 503){
+      if (e.response!.statusCode == 503){
         return 'MAL';
       }
       throw Exception(e);
     }
   }
 
-  Future<String> _onRecoverPassword(String password){
+  Future<String?> _onRecoverPassword(String password){
     return Future.delayed(time).then((_) {
       return null;
     });
@@ -59,11 +51,16 @@ class LoginTechos extends StatelessWidget {
   Widget build(BuildContext context) {
     return FlutterLogin(
       hideSignUpButton: true,
-      onSignup: _onSignup,
       onLogin: _onLogin,
+      passwordValidator: (data) {
+        if (data!.isEmpty){
+          return 'Wrong input';
+        }
+        return null;
+      },
       userValidator: (data) {
-        if (data.isEmpty){
-          return 'MAL';
+        if (data!.isEmpty){
+          return 'Wrong input';
         }
         return null;
       },
@@ -74,13 +71,14 @@ class LoginTechos extends StatelessWidget {
         )
       ),
       navigateBackAfterRecovery: true,
-      logo: 'images/techos.png',
+      logo: 'assets/images/techos.png',
       onRecoverPassword: _onRecoverPassword,
       onSubmitAnimationCompleted: () {
         Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (context) => MainPage(token: token, loginInfo: loginInfo)
         ));
       },
+      onSignup: (LoginData) {  },
     );
   }
   

@@ -4,19 +4,19 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:pantallas/routes/lista_casa.dart';
+import 'package:pantallas/routes/budget_page.dart';
 import 'package:pantallas/routes/payments.dart';
 import 'package:pantallas/widgets/drawer.dart';
 import 'landing_page.dart';
 
 class MainPage extends StatefulWidget {
-  final Response token;
-  final Response loginInfo;
+  final Response? token;
+  final Response? loginInfo;
 
   MainPage({
-    Key key,
-    @required this.token,
-    @required this.loginInfo
+    Key? key,
+    required this.token,
+    required this.loginInfo
   }) : super (key: key);
 
   @override
@@ -27,15 +27,27 @@ class _StateMainPage extends State<MainPage>{
   GlobalKey<ScaffoldState> scaffoldState = GlobalKey<ScaffoldState>();
   int _index = 0;
   int get index => _index;
+  late Response budget;
 
   set index(int value) {
     _index = min(value, 2);
     setState(() {});
   }
 
+  void getbudget() async {
+    budget = await Dio().get(
+      'https://los-techos.herokuapp.com/api/budget',
+      options: Options(
+        contentType: Headers.jsonContentType,
+        headers: { 'access-token': widget.token?.data['token'] }
+      )
+    );
+  }
+
   @override
   void initState() {
     super.initState();
+    getbudget();
   }
 
   @override
@@ -48,8 +60,8 @@ class _StateMainPage extends State<MainPage>{
              index: index,
              children: [
                startPage(),
-               Payments(),
-               budget(context),
+               Payments(token: widget.token?.data['token']),
+               BudgetPage(budget: budget,),
              ],
            ),
          ),
@@ -60,6 +72,7 @@ class _StateMainPage extends State<MainPage>{
   }
 
   Widget startPage() {
+    var datos = widget.loginInfo?.data;
     return Scaffold(
       key: scaffoldState,
       endDrawer: DrawerApp(),
@@ -68,14 +81,14 @@ class _StateMainPage extends State<MainPage>{
           IconButton(
             icon: Icon(MdiIcons.menu, color: Colors.black,),
             onPressed: () {
-              scaffoldState.currentState.openEndDrawer();
+              scaffoldState.currentState?.openEndDrawer();
             },
           )
         ],
         centerTitle: true,
         backgroundColor: Colors.white,
         title: Text(
-          "Welcome ${widget.loginInfo.data[0]['uName']}!",
+          "Welcome ${datos[0]['uName'] ?? "Joel"}!",
           textAlign: TextAlign.center,
           style: TextStyle(
             color: Colors.black,
@@ -122,7 +135,7 @@ class _StateMainPage extends State<MainPage>{
           icon: Icon(MdiIcons.walletOutline),
           label: 'Budget',
         ),
-        widget.token.data['roId'] != 1? BottomNavigationBarItem(
+        widget.token?.data['roId'] != 1? BottomNavigationBarItem(
           icon: Icon(MdiIcons.bellOutline),
           label: 'Notifications',
         ) : BottomNavigationBarItem(
