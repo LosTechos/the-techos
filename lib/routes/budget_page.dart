@@ -6,11 +6,11 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:pantallas/widgets/drawer.dart';
 
 class BudgetPage extends StatefulWidget {
-  final Response? budget;
+  final Response? loginInfo;
 
   const BudgetPage({
     Key? key,
-    required this.budget
+    required this.loginInfo
   });
 
   @override
@@ -19,10 +19,27 @@ class BudgetPage extends StatefulWidget {
 
 class _StateBudgetPage extends State<BudgetPage> {
   GlobalKey<ScaffoldState> scaffoldState = GlobalKey<ScaffoldState>();
+  Response? budget;
+
+  void getbudget() async {
+    var res = await Dio().get(
+        'https://los-techos.herokuapp.com/api/budget',
+        options: Options(
+            contentType: Headers.jsonContentType,
+            headers: { 'access-token': widget.loginInfo?.data['token'] }
+        )
+    );
+    setState(() {
+      budget = res;
+    });
+  }
 
   @override
+  void initState() {
+    getbudget();
+  }
+  @override
   Widget build(BuildContext context) {
-    var budget = widget.budget?.data ?? 1267;
     return Scaffold(
         key: scaffoldState,
         appBar: AppBar(
@@ -106,7 +123,7 @@ class _StateBudgetPage extends State<BudgetPage> {
                                 children: [
                                   Center(
                                     child: Text(
-                                      '\$${budget[0]['budget']}',
+                                      '\$${budget?.data[0]['budget']}',
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 56,
@@ -284,7 +301,7 @@ class _StateBudgetPage extends State<BudgetPage> {
                                               CrossAxisAlignment.start,
                                               children: [
                                                 Text(
-                                                  'Go Far Rewards',
+                                                  'New security cameras',
                                                   style:
                                                   TextStyle(
                                                     color: Colors.black,
@@ -310,10 +327,9 @@ class _StateBudgetPage extends State<BudgetPage> {
                                             crossAxisAlignment: CrossAxisAlignment.end,
                                             children: [
                                               Text(
-                                                '\$50.00',
+                                                '\30000.00',
                                                 textAlign: TextAlign.end,
-                                                style:
-                                                TextStyle(
+                                                style: TextStyle(
                                                   color: Colors.black,
                                                 ),
                                               ),
@@ -321,7 +337,7 @@ class _StateBudgetPage extends State<BudgetPage> {
                                                 padding: EdgeInsetsDirectional.fromSTEB(
                                                     0, 4, 0, 0),
                                                 child: Text(
-                                                  'Hello World',
+                                                  'Spent on ${DateFormat('MM-dd-yy').format(DateTime.now())}',
                                                   textAlign: TextAlign.end,
                                                   style:
                                                   TextStyle(
@@ -345,7 +361,33 @@ class _StateBudgetPage extends State<BudgetPage> {
                       ],
                     ),
                   )
-                )
+                ),
+                widget.loginInfo?.data['roId'] == 1? Positioned(
+                  bottom: 2,
+                  right: 2,
+                  child: FloatingActionButton(
+                    child: Icon(MdiIcons.plus),
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: Text('Input the new amount'),
+                            content: TextField(),
+                            actions: [
+                              TextButton(
+                                child: Text('Ok'),
+                                onPressed: (){
+                                  Navigator.of(context).pop();
+                                },
+                              )
+                            ],
+                          );
+                        });
+                    },
+                  ),
+                ) :
+                Positioned(child: SizedBox(width: 1, height: 1,)),
               ],
             ),
           ),

@@ -25,6 +25,7 @@ dependencies:
   intl: ^0.17.0
   future_progress_dialog: ^0.2.0
   dio: ^4.0.4
+  carousel_slider: ^4.0.0
   image_picker: ^0.8.4+4
   material_design_icons_flutter: ^5.0.6295
   video_player: ^2.1.12

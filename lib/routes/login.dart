@@ -4,15 +4,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_login/flutter_login.dart';
 import 'package:pantallas/routes/main_page.dart';
 
-class LoginTechos extends StatelessWidget {
-  late final Response? token;
-  late final Response? loginInfo;
+class LoginTechos extends StatefulWidget {
+  @override
+  _StateLoginTechos createState() => _StateLoginTechos();
+}
+
+class _StateLoginTechos extends State<LoginTechos> {
+  late Response loginInfo;
+  late Response userInfo;
   final Duration time = Duration(milliseconds: 2600);
 
 
   Future<String?> _onLogin(LoginData login) async {
     try{
-      token = await Dio().post(
+      var resL = await Dio().post(
         'https://los-techos.herokuapp.com/api/login',
         data: {
           "uName": login.name,
@@ -22,16 +27,18 @@ class LoginTechos extends StatelessWidget {
           contentType: Headers.jsonContentType,
         )
       );
+      loginInfo = resL;
 
-      loginInfo = await Dio().get(
-        'https://los-techos.herokuapp.com/api/user/${token!.data['id'] ?? 71}',
+      var res = await Dio().get(
+        'https://los-techos.herokuapp.com/api/user/${loginInfo.data['id'] ?? 71}',
         options: Options(
           contentType: Headers.jsonContentType,
           headers: {
-            'access-token': token!.data['token'],
+            'access-token': loginInfo.data['token'],
           }
         )
       );
+      userInfo = res;
       return null;
     } on DioError catch (e) {
       if (e.response!.statusCode == 503){
@@ -39,12 +46,6 @@ class LoginTechos extends StatelessWidget {
       }
       throw Exception(e);
     }
-  }
-
-  Future<String?> _onRecoverPassword(String password){
-    return Future.delayed(time).then((_) {
-      return null;
-    });
   }
 
   @override
@@ -72,13 +73,16 @@ class LoginTechos extends StatelessWidget {
       ),
       navigateBackAfterRecovery: true,
       logo: 'assets/images/techos.png',
-      onRecoverPassword: _onRecoverPassword,
+      onRecoverPassword: (ded){},
       onSubmitAnimationCompleted: () {
         Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (context) => MainPage(token: token, loginInfo: loginInfo)
+          builder: (context) {
+            print(loginInfo);
+            return MainPage(loginInfo: loginInfo, userInfo: userInfo);
+          }
         ));
       },
-      onSignup: (LoginData) {  },
+      onSignup: (loginData) {  },
     );
   }
   
