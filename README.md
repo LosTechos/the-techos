@@ -1,6 +1,6 @@
 # pantallas
 
-pantallas barberia
+pantallas
 
 ## Getting Started
 

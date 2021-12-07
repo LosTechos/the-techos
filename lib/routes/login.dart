@@ -77,7 +77,6 @@ class _StateLoginTechos extends State<LoginTechos> {
       onSubmitAnimationCompleted: () {
         Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (context) {
-            print(loginInfo);
             return MainPage(loginInfo: loginInfo, userInfo: userInfo);
           }
         ));

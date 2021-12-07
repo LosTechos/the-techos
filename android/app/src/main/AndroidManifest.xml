@@ -11,7 +11,8 @@
     <uses-permission android:name="android.permission.CAMERA" />
    <application
         android:label="pantallas"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/ic_launcher"
+        android:largeHeap="true">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

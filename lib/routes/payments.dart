@@ -158,40 +158,48 @@ class _StatePayments extends State<Payments> {
       floatingActionButton: FloatingActionButton(
         child: Icon(MdiIcons.cash),
         onPressed: () async {
-          XFile? imagen = await _picker.pickImage(
-            source: ImageSource.gallery,
-          );
-          Uint8List? list = await imagen?.readAsBytes();
-          var encImg = base64Encode(list ?? []);
-          showDialog(
-            barrierDismissible: true,
-            context: context,
-            builder: (dialogContext) {
-              contextoDialogo = dialogContext;
-              return AlertDialog(
-                title: Text("Please wait...", textAlign: TextAlign.center,),
-                actions: [],
-                content: CircularProgressIndicator(color: Colors.green,),
-              );
-            },
-          );
-          Response res = await Dio().put(
-            'https://los-techos.herokuapp.com/api/upload',
-            options: Options(
-                contentType: Headers.jsonContentType,
-                headers: { 'access-token' : widget.loginInfo!.data['token'] }
-            ),
-            data: {
-              'uId': 71,
-              'pImage': encImg,
-            },
-          ).whenComplete(() {
-            Navigator.pop(contextoDialogo);
+          var encImg;
+          try {
+            XFile? imagen = await _picker.pickImage(
+              source: ImageSource.gallery,
+            );
+            Uint8List? list = await imagen?.readAsBytes();
+            list == null ? throw Exception("Error") : encImg = base64Encode(list);
+            showDialog(
+              barrierDismissible: true,
+              context: context,
+              builder: (dialogContext) {
+                contextoDialogo = dialogContext;
+                return AlertDialog(
+                  title: Text("Please wait...", textAlign: TextAlign.center,),
+                  actions: [],
+                  content: CircularProgressIndicator(color: Colors.green,),
+                );
+              },
+            );
+            Response res = await Dio().put(
+              'https://los-techos.herokuapp.com/api/upload',
+              options: Options(
+                  contentType: Headers.jsonContentType,
+                  headers: { 'access-token' : widget.loginInfo!.data['token'] }
+              ),
+              data: {
+                'uId': 71,
+                'pImage': encImg,
+              },
+            ).whenComplete(() {
+              Navigator.pop(contextoDialogo);
+              ScaffoldMessenger.of(originalBuild?? context).showSnackBar(SnackBar(
+                content: Text("Ticket sent"),
+                backgroundColor: Colors.green,
+              ));
+            });
+          } catch(e) {
             ScaffoldMessenger.of(originalBuild?? context).showSnackBar(SnackBar(
-              content: Text("Ticket sent"),
-              backgroundColor: Colors.green,
+              content: Text("No data sent"),
+              backgroundColor: Colors.red,
             ));
-          });
+          }
         },
       ),
       key: scaffoldState,

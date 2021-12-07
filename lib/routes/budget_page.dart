@@ -21,7 +21,7 @@ class _StateBudgetPage extends State<BudgetPage> {
   GlobalKey<ScaffoldState> scaffoldState = GlobalKey<ScaffoldState>();
   Response? budget;
 
-  void getbudget() async {
+  getbudget() async {
     var res = await Dio().get(
         'https://los-techos.herokuapp.com/api/budget',
         options: Options(
@@ -36,6 +36,7 @@ class _StateBudgetPage extends State<BudgetPage> {
 
   @override
   void initState() {
+    super.initState();
     getbudget();
   }
   @override
@@ -64,8 +65,8 @@ class _StateBudgetPage extends State<BudgetPage> {
         ),
         endDrawer: DrawerApp(),
         body: SafeArea(
-          child: SingleChildScrollView(
-            child: Column(
+          child: ListView(
+            children: [Column(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -327,7 +328,7 @@ class _StateBudgetPage extends State<BudgetPage> {
                                             crossAxisAlignment: CrossAxisAlignment.end,
                                             children: [
                                               Text(
-                                                '\30000.00',
+                                                '\$30000.00',
                                                 textAlign: TextAlign.end,
                                                 style: TextStyle(
                                                   color: Colors.black,
@@ -362,9 +363,8 @@ class _StateBudgetPage extends State<BudgetPage> {
                     ),
                   )
                 ),
-                widget.loginInfo?.data['roId'] == 1? Positioned(
-                  bottom: 2,
-                  right: 2,
+                widget.loginInfo?.data['roId'] == 1? Container(
+                  padding: EdgeInsets.fromLTRB(0, 0, 20, 20),
                   child: FloatingActionButton(
                     child: Icon(MdiIcons.plus),
                     onPressed: () {
@@ -387,9 +387,9 @@ class _StateBudgetPage extends State<BudgetPage> {
                     },
                   ),
                 ) :
-                Positioned(child: SizedBox(width: 1, height: 1,)),
+                Container(child: SizedBox(width: 1, height: 1,)),
               ],
-            ),
+            )]
           ),
         )
     );
